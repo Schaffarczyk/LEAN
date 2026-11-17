@@ -1,0 +1,39 @@
+cff-version: 1.2.0
+message: "If you use this formalisation, please cite it as below."
+type: software
+title: "Existence and uniqueness for the Blasius boundary-layer problem, formalised in Lean 4"
+abstract: >-
+  A Lean 4 / Mathlib formalisation of section 2 of H. Weyl, "On the differential
+  equations of the simplest boundary-layer problems", Annals of Mathematics 43 (1942):
+  existence and uniqueness of the solution of w''' + 2 w w'' = 0 on [0, infinity) with
+  w(0) = w'(0) = 0 and w'(z) -> k, and of the Blasius problem f''' + f f'' = 0,
+  f(0) = f'(0) = 0, f'(eta) -> 1. The Lean code was generated with the AI assistant
+  Claude (Anthropic) and is verified by the Lean kernel.
+authors:
+  - family-names: Schaffarczyk
+    given-names: Alois Peter
+    orcid: "https://orcid.org/0000-0002-9357-3232"
+    affiliation: "University of Applied Sciences Kiel"
+version: 1.0.0
+date-released: "2026-11-17"
+license: Apache-2.0
+repository-code: "https://github.com/Schaffarczyk/LEAN"
+keywords:
+  - Lean 4
+  - Mathlib
+  - formal verification
+  - Blasius equation
+  - boundary layer
+  - fluid mechanics
+references:
+  - type: article
+    authors:
+      - family-names: Weyl
+        given-names: Hermann
+    title: "On the differential equations of the simplest boundary-layer problems"
+    journal: "Annals of Mathematics"
+    volume: 43
+    issue: 2
+    year: 1942
+    start: 381
+    end: 407

@@ -57,7 +57,7 @@ Lean 4.24.0, Mathlib v4.24.0.
 ### Note on authorship
 
 The Lean code was generated with the AI assistant Claude (Anthropic) at the request of
-Alois Schaffarczyk and is verified by the Lean kernel.
+Alois Peter Schaffarczyk (University of Applied Sciences Kiel) and is verified by the Lean kernel.
 
 ## License
 
