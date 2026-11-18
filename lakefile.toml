@@ -1,5 +1,5 @@
 name = "blasius"
-defaultTargets = ["Blasius", "BlasiusAsymptotics", "WeylGeneral", "LinearSystem", "WeylAux", "WeylOperator"]
+defaultTargets = ["Blasius", "BlasiusAsymptotics", "WeylGeneral", "LinearSystem", "WeylAux", "WeylOperator", "WeylContinuity"]
 
 [[require]]
 name = "mathlib"
@@ -23,3 +23,6 @@ name = "WeylAux"
 
 [[lean_lib]]
 name = "WeylOperator"
+
+[[lean_lib]]
+name = "WeylContinuity"
