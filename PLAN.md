@@ -32,7 +32,7 @@ for the fixed-point equation g = Ψ{g}.
 - [ ] Stage D – §§6–8
   - [x] D1: linear system and auxiliary theorem in abstract form (`LinearSystem.lean`, `WeylAux.lean`)
   - [x] D2: the operator Φ_λ, Lemma 1, Lemma 2, equicontinuity (`WeylOperator.lean`); Lemmas 3–4 move to D5
-  - [ ] D5: after the fixed point: Lemmas 3–4, decay, β, final theorem
+  - [x] D5: from a fixed point of Φ_λ to a solution of (A_λ) (`WeylFixed.lean`); the Gaussian decay of Lemmas 3–4 is not needed for this and not formalised
   - [x] D3: Lemma 5, continuity of Φ_λ (`WeylContinuity.lean`)
   - [ ] D4: fixed-point principle from Brouwer (dependency found: `harfe/fixed-point-theorems-lean4`, MIT, needs Mathlib v4.35.0); existence theorem for (A_λ)
 
