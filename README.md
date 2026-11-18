@@ -39,6 +39,14 @@ In the classical normalisation this is Blasius's problem
 | `f0_asymptotic`, `weyl_A0_asymptotic` | Weyl's asymptotic formulas (17), (18) |
 | `β_ge_gamma` | `β ≥ 3^(1/3) Γ(4/3)` |
 
+`WeylGeneral.lean` formalises §3:
+
+| Theorem | Statement |
+|---|---|
+| `exists_fixq`, `fixq_unique` | the integral equation `g = q · exp(-2 J^m g)` has exactly one continuous solution |
+| `weyl_order_exists`, `weyl_order_unique` | `f^(ν+1) + 2 f f^(ν) = 0` with arbitrary initial data (Weyl's (19), (21), (23)) |
+| `goldstein_wake_exists` | Goldstein's wake problem `w''' + 2 w w'' - w'² = 0`, `w(0) = w''(0) = 0`, `w''(∞) = a` |
+
 No `sorry`. Axioms used: `propext`, `Classical.choice`, `Quot.sound`.
 
 ### Proof outline

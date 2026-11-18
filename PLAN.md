@@ -27,7 +27,7 @@ for the fixed-point equation g = Ψ{g}.
 - [x] §2 existence (`weyl_A0_exists`, `blasius_exists`, `blasius_exists_deriv`)
 - [x] §2 uniqueness (`weyl_A0_unique`, `IsBlasiusSol.unique`)
 - [x] Stage A – rest of §2 (`BlasiusAsymptotics.lean`), except a decimal bound on α (item 5)
-- [ ] Stage B – §3
+- [x] Stage B – §3 (`WeylGeneral.lean`): order ν with general initial data, inequality (23), Goldstein's wake; the power-series remarks are not formalised
 - [ ] Stage C – §§4–5
 - [ ] Stage D – §§6–8
 
