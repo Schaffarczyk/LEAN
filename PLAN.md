@@ -28,7 +28,13 @@ for the fixed-point equation g = Ψ{g}.
 - [x] §2 uniqueness (`weyl_A0_unique`, `IsBlasiusSol.unique`)
 - [x] Stage A – rest of §2 (`BlasiusAsymptotics.lean`), except a decimal bound on α (item 5)
 - [x] Stage B – §3 (`WeylGeneral.lean`): order ν with general initial data, inequality (23), Goldstein's wake; the power-series remarks are not formalised
-- [ ] Stage C – §§4–5
+- [ ] Stage C – §§4–5 (`Homann.lean`, `HomannNumerics.lean`)
+  - [x] C1: operator Ψ, `0 < Ψ ≤ 1`, antitonicity (29)
+  - [x] C3: contraction estimate, `q = ∫ Ψ z²`, `qₙ ≤ q₂`
+  - [x] C4: §5 in the form `q₂ ≤ 9/10` (certificate `φ = 4z/5 + z³/15`, no numerical integration; Weyl's sharper `q₂ < 0.76` is not formalised)
+  - [x] C5a: uniqueness of the solution of `g = Ψ{g}`
+  - [ ] C2/C5b: convergence of the iteration `gₙ`, existence of the fixed point by iteration
+  - [ ] C5c: equivalence of `g = Ψ{g}` with (A_{1/2}); uniqueness for the differential equation
 - [x] Stage D – §§6–8 (existence for (A_λ), λ ≥ 0)
   - [x] D1: linear system and auxiliary theorem in abstract form (`LinearSystem.lean`, `WeylAux.lean`)
   - [x] D2: the operator Φ_λ, Lemma 1, Lemma 2, equicontinuity (`WeylOperator.lean`); Lemmas 3–4 move to D5

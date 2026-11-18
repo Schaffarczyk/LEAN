@@ -70,9 +70,25 @@ Brouwer's fixed-point theorem is not in Mathlib; it is taken from
 (MIT licence), pinned in `lakefile.toml`. `WeylFixedPoint.lean` contains the same results
 with Brouwer's theorem for cubes as an explicit hypothesis (`…_of_brouwer`).
 
-Not formalised: uniqueness for λ ≠ 0 (not proved by Weyl either), the Gaussian decay
-estimates of Lemmas 3 and 4, and §§4–5 (the alternating iteration for λ = 1/2 with
-`q₂ < 0.76`).
+§§4–5 (Homann's problem, λ = 1/2, in Weyl's integral form `g = Ψ{g}`, eq. (28)) are in
+`Homann.lean` and `HomannNumerics.lean`:
+
+| Theorem | Statement |
+|---|---|
+| `Homann.psi_antitone` | (29): `g ≤ g*` implies `Ψ{g} ≥ Ψ{g*}` |
+| `Homann.psi_sub_le` | `0 ≤ g* - g ≤ μ` implies `Ψ{g} - Ψ{g*} ≤ q(g) μ` |
+| `Homann.qq_antitone` | `q(g) = ∫ Ψ{g} z² dz` is antitone, so all `qₙ ≤ q₂` |
+| `Homann.q2_le` | §5: `q₂ ≤ 9/10 < 1` |
+| `Homann.psi_fixed_unique'` | `g = Ψ{g}` has at most one solution |
+
+Weyl obtains `q₂ < 0.76` from numerical estimates of two integrals. The formal proof of
+`q₂ ≤ 9/10` uses no numerical integration: from `g₂(z) ≥ 1 - z` one gets a lower bound `D`
+for `G₂'`, and the polynomial `φ(z) = 4z/5 + z³/15` satisfies `φD - φ' ≥ z³/3 - 9/10`, which
+makes `φ e^{-G₂} + ∫₀ᶻ e^{-G₂}(ζ³/3 - 9/10)dζ` non-increasing.
+
+Not formalised: uniqueness for λ ≠ 0 other than the above (not proved by Weyl either), the
+Gaussian decay estimates of Lemmas 3 and 4, the convergence of the alternating iteration of
+§4 and the passage from `g = Ψ{g}` back to the differential equation (A_{1/2}).
 
 No `sorry`. Axioms used: `propext`, `Classical.choice`, `Quot.sound`.
 
