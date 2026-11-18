@@ -71,7 +71,7 @@ Brouwer's fixed-point theorem is not in Mathlib; it is taken from
 with Brouwer's theorem for cubes as an explicit hypothesis (`…_of_brouwer`).
 
 §§4–5 (Homann's problem, λ = 1/2, in Weyl's integral form `g = Ψ{g}`, eq. (28)) are in
-`Homann.lean`, `HomannNumerics.lean` and `HomannIteration.lean`:
+`Homann.lean`, `HomannNumerics.lean`, `HomannIteration.lean` and `HomannODE.lean`:
 
 | Theorem | Statement |
 |---|---|
@@ -83,15 +83,16 @@ with Brouwer's theorem for cubes as an explicit hypothesis (`…_of_brouwer`).
 | `Homann.gs_step`, `Homann.glimit_fixed` | the iteration `g₁ = 1`, `gₙ₊₁ = Ψ{gₙ}` converges like `q₂ⁿ`; the limit solves `g = Ψ{g}` |
 | `Homann.pincer` | `g₂ ≤ g₄ ≤ … ≤ g ≤ … ≤ g₃ ≤ g₁` |
 | `Homann.exists_unique_psi_fixed` | existence and uniqueness for `g = Ψ{g}` |
+| `Homann.homann_unique`, `Homann.homann_exists_unique` | **Homann's problem is uniquely solvable**: for `k > 0` there is exactly one `w` on `[0, ∞)` with `w''' + 2ww'' + (k² - w'²) = 0`, `w(0) = w'(0) = 0`, `w'(∞) = k` |
 
 Weyl obtains `q₂ < 0.76` from numerical estimates of two integrals. The formal proof of
 `q₂ ≤ 9/10` uses no numerical integration: from `g₂(z) ≥ 1 - z` one gets a lower bound `D`
 for `G₂'`, and the polynomial `φ(z) = 4z/5 + z³/15` satisfies `φD - φ' ≥ z³/3 - 9/10`, which
 makes `φ e^{-G₂} + ∫₀ᶻ e^{-G₂}(ζ³/3 - 9/10)dζ` non-increasing.
 
-Not formalised: uniqueness for λ ≠ 0 other than the above (not proved by Weyl either), the
-Gaussian decay estimates of Lemmas 3 and 4, and the passage from `g = Ψ{g}` back to the
-differential equation (A_{1/2}).
+Not formalised: uniqueness for λ other than 0 and 1/2 (not proved by Weyl either), the
+Gaussian decay estimates of Lemmas 3 and 4, Weyl's sharper constant `q₂ < 0.76`, and the
+power-series remarks of §3.
 
 No `sorry`. Axioms used: `propext`, `Classical.choice`, `Quot.sound`.
 
