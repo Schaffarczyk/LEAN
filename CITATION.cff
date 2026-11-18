@@ -14,8 +14,8 @@ authors:
     given-names: Alois Peter
     orcid: "https://orcid.org/0000-0002-9357-3232"
     affiliation: "University of Applied Sciences Kiel"
-version: 1.0.0
-date-released: "2026-11-17"
+version: 1.0.1
+date-released: 2026-11-18
 license: Apache-2.0
 repository-code: "https://github.com/Schaffarczyk/LEAN"
 keywords:
@@ -25,15 +25,3 @@ keywords:
   - Blasius equation
   - boundary layer
   - fluid mechanics
-references:
-  - type: article
-    authors:
-      - family-names: Weyl
-        given-names: Hermann
-    title: "On the differential equations of the simplest boundary-layer problems"
-    journal: "Annals of Mathematics"
-    volume: 43
-    issue: 2
-    year: 1942
-    start: 381
-    end: 407
