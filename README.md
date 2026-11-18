@@ -8,7 +8,7 @@ Machine-checked proofs in [Lean 4](https://lean-lang.org) with
 This repository formalises H. Weyl, *On the differential equations of the simplest
 boundary-layer problems*, Annals of Mathematics 43 (1942), 381–407: §2 (Blasius), §3
 (arbitrary order, Goldstein's wake) and §§6–8 (existence for the problems (A_λ), λ ≥ 0).
-The headline result is `Blasius.weyl_Alam_exists` in `WeylMain.lean`. See `PLAN.md` for
+The headline results are `Blasius.weyl_theorem` in `WeylDecay.lean` (existence for all λ ≥ 0, with monotonicity and decay) and `Blasius.Homann.homann_exists_unique` in `HomannODE.lean`. See `PLAN.md` for
 what is and is not covered.
 
 ## Blasius's boundary-layer problem: existence and uniqueness
@@ -63,7 +63,9 @@ In the classical normalisation this is Blasius's problem
 | `PhiL_tendsto` | Lemma 5: continuity of the operator Φ_λ |
 | `InG.weyl_Alam_of_fixed` | a fixed point of Φ_λ yields a solution of (A_λ) |
 | `exists_fixed` | Φ_λ has a fixed point (Weyl's fixed-point principle; Brouwer's theorem via the Appendix argument) |
-| `weyl_Alam_exists` | **Weyl's theorem, p. 406**: for λ ≥ 0, k > 0 there is `w` with `w''' + 2ww'' + 2λ(k² - w'²) = 0`, `w(0) = w'(0) = 0`, `w'(∞) = k` |
+| `weyl_Alam_exists` | for λ ≥ 0, k > 0 there is `w` with `w''' + 2ww'' + 2λ(k² - w'²) = 0`, `w(0) = w'(0) = 0`, `w'(∞) = k` |
+| `InG.F1_one_ge`, `InG.omg_le_gauss`, `InG.chi_decay` | Lemmas 3 and 4 (`WeylDecay.lean`) |
+| `weyl_theorem` | **Weyl's theorem, p. 406, in full** (`WeylDecay.lean`): the solution can be chosen such that `w'` increases monotonically from 0 to k and `w''` decreases monotonically from `w''(0) > 0` to zero, with `w''(z) ≤ C e^{-γz²}` |
 
 Brouwer's fixed-point theorem is not in Mathlib; it is taken from
 [harfe/fixed-point-theorems-lean4](https://github.com/harfe/fixed-point-theorems-lean4)
@@ -102,8 +104,8 @@ makes `φ e^{-G₂} + ∫₀ᶻ e^{-G₂}(ζ³/3 - 9/10)dζ` non-increasing.
 Weyl states `α < 0.684` on p. 388. This does not follow from his bound `β ≥ B`, since
 `B^{-3/2} = 0.68419…`; what follows, and is proved here, is `α < 0.685`.
 
-Not formalised: uniqueness for λ other than 0 and 1/2 (not proved by Weyl either), the
-Gaussian decay estimates of Lemmas 3 and 4, and the power-series remarks of §3.
+Not formalised: uniqueness for λ other than 0 and 1/2 (not proved by Weyl either) and the
+power-series remarks of §3.
 
 No `sorry`. Axioms used: `propext`, `Classical.choice`, `Quot.sound`.
 
