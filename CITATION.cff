@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use this formalisation, please cite it as below."
 type: software
-title: "Weyl's boundary-layer theorems formalised in Lean 4: existence and uniqueness for the Blasius problem, existence for the problems (A_lambda)"
+title: "Weyl's boundary-layer theorems formalised in Lean 4: existence and uniqueness for the Blasius and Homann problems, existence for the problems (A_lambda)"
 abstract: >-
   A Lean 4 / Mathlib formalisation of H. Weyl, "On the differential equations of the
   simplest boundary-layer problems", Annals of Mathematics 43 (1942), 381-407.
@@ -11,14 +11,16 @@ abstract: >-
   Sections 6-8: the auxiliary theorem, Lemmas 1, 2 and 5, the fixed-point principle, and
   existence for w''' + 2 w w'' + 2 lambda (k^2 - w'^2) = 0, w(0) = w'(0) = 0,
   w'(z) -> k, for all lambda >= 0. The fixed-point theorem of Brouwer is taken from the
-  Lean 4 formalisation harfe/fixed-point-theorems-lean4. The Lean code was generated with
+  Lean 4 formalisation harfe/fixed-point-theorems-lean4. Sections 4-5: for lambda = 1/2
+  (Homann's problem) the operator Psi, convergence of Weyl's alternating iteration and
+  uniqueness of the solution. The Lean code was generated with
   the AI assistant Claude (Anthropic) and is verified by the Lean kernel.
 authors:
   - family-names: Schaffarczyk
     given-names: Alois Peter
     orcid: "https://orcid.org/0000-0002-9357-3232"
     affiliation: "University of Applied Sciences Kiel"
-version: 2.0.0
+version: 2.1.0
 doi: 10.5281/zenodo.24333373
 date-released: 2026-11-18
 license: Apache-2.0
