@@ -33,7 +33,7 @@ for the fixed-point equation g = Ψ{g}.
   - [x] C3: contraction estimate, `q = ∫ Ψ z²`, `qₙ ≤ q₂`
   - [x] C4: §5 in the form `q₂ ≤ 9/10` (certificate `φ = 4z/5 + z³/15`, no numerical integration; Weyl's sharper `q₂ < 0.76` is not formalised)
   - [x] C5a: uniqueness of the solution of `g = Ψ{g}`
-  - [ ] C2/C5b: convergence of the iteration `gₙ`, existence of the fixed point by iteration
+  - [x] C2/C5b: convergence of the iteration `gₙ`, pincer movement, existence of the fixed point (`HomannIteration.lean`)
   - [ ] C5c: equivalence of `g = Ψ{g}` with (A_{1/2}); uniqueness for the differential equation
 - [x] Stage D – §§6–8 (existence for (A_λ), λ ≥ 0)
   - [x] D1: linear system and auxiliary theorem in abstract form (`LinearSystem.lean`, `WeylAux.lean`)

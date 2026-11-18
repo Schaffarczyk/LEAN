@@ -1,6 +1,6 @@
 name = "blasius"
 allowNonModules = true
-defaultTargets = ["Blasius", "BlasiusAsymptotics", "WeylGeneral", "LinearSystem", "WeylAux", "WeylOperator", "WeylContinuity", "WeylFixed", "WeylFixedPoint", "WeylMain", "Homann", "HomannNumerics"]
+defaultTargets = ["Blasius", "BlasiusAsymptotics", "WeylGeneral", "LinearSystem", "WeylAux", "WeylOperator", "WeylContinuity", "WeylFixed", "WeylFixedPoint", "WeylMain", "Homann", "HomannNumerics", "HomannIteration"]
 
 [[require]]
 name = "mathlib"
@@ -47,3 +47,6 @@ name = "Homann"
 
 [[lean_lib]]
 name = "HomannNumerics"
+
+[[lean_lib]]
+name = "HomannIteration"
