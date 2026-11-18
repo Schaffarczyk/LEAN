@@ -14,12 +14,15 @@ For a fixed point `g = Φ_λ{g}`, `λ > 0`:
 * `InG.omg_le_gauss`, `InG.chi_decay`: **Lemma 4**, for `ω = Φ_λ{g}`, `g ∈ 𝔊`, `γ = ∫₀¹ g`:
   `ω(z) ≤ e^{-γ (z-1)²}` and `0 ≤ -(ω' + 2 f ω) ≤ (c₁ + c₂ z²) e^{-γ (z-1)²}` for `z ≥ 1`;
   `InG.fixed_le_gauss` is (52) for the fixed point;
+* `InG.betaL_le`, `weyl_theorem_bounds`: Weyl's explicit appraisal of `β` and the resulting
+  two-sided bound for `w''(0)`;
 * `weyl_theorem`: **the theorem of p. 406** for all `λ ≥ 0`: the problem `(A_λ)` has a
   solution `w` whose derivative increases monotonically from `0` to `k`, and whose second
   derivative decreases monotonically from `w''(0) > 0` to zero at least as fast as
   `C e^{-γ z²}`.
 -/
 import WeylMain
+import Mathlib.Analysis.SpecialFunctions.Gaussian.GaussianIntegral
 
 open Set Filter Topology MeasureTheory
 
@@ -190,6 +193,52 @@ lemma fixed_le_gauss' {z : ℝ} (hz : 0 ≤ z) :
   · refine (hg.fixed_le_gauss hlam hfix h).trans (Real.exp_le_exp.2 ?_)
     nlinarith [mul_nonneg hγ (sq_nonneg (z - 2))]
 
+/-- Weyl's explicit appraisal of `β` (p. 405): `β ≤ 1 + ½ √(π/γ)`, `γ = ∫₀¹ g`. -/
+theorem betaL_le : betaL g ≤ 1 + Real.sqrt (Real.pi / F1 g 1) / 2 := by
+  have hγ := hg.F1_one_pos hlam hfix
+  set G : ℝ → ℝ := fun s => Real.exp (-F1 g 1 * s ^ 2) with hG
+  have hGc : Continuous G := by fun_prop
+  have hGpos : ∀ s, 0 < G s := fun s => Real.exp_pos _
+  have hint : IntegrableOn G (Ioi 0) := (integrable_exp_neg_mul_sq hγ).integrableOn
+  have hval : ∫ s in Ioi (0 : ℝ), G s = Real.sqrt (Real.pi / F1 g 1) / 2 :=
+    integral_gaussian_Ioi (F1 g 1)
+  have hJt : Tendsto (J G) atTop (𝓝 (∫ s in Ioi (0 : ℝ), G s)) :=
+    intervalIntegral_tendsto_integral_Ioi 0 hint tendsto_id
+  have hJmono : Monotone (J G) :=
+    monotone_of_deriv_nonneg (fun x => (J_hasDerivAt hGc x).differentiableAt) fun x => by
+      rw [(J_hasDerivAt hGc x).deriv]
+      exact (hGpos x).le
+  have hJle : ∀ y, J G y ≤ ∫ s in Ioi (0 : ℝ), G s := fun y =>
+    ge_of_tendsto hJt ((eventually_ge_atTop y).mono fun _ h => hJmono h)
+  have key : ∀ z, 1 ≤ z → F1 g z ≤ 1 + Real.sqrt (Real.pi / F1 g 1) / 2 := by
+    intro z hz
+    have hm := monotoneOn_Icc_of_hasDerivAt (F := fun x => J G (x - 1) - F1 g x)
+      (F' := fun x => G (x - 1) - g x) (s := 1) (t := z)
+      (fun x _ _ => by
+        have h1 : HasDerivAt (fun x : ℝ => x - 1) 1 x := (hasDerivAt_id x).sub_const 1
+        have h2 := (J_hasDerivAt hGc (x - 1)).comp x h1
+        have h3 := h2.sub (hg.hasDerivAt_F1 x)
+        deriv_conv h3
+        ring)
+      (fun x hx _ => by
+        have := hg.fixed_le_gauss hlam hfix hx
+        have e : G (x - 1) = Real.exp (-(F1 g 1 * (x - 1) ^ 2)) := by
+          simp only [hG]
+          congr 1
+          ring
+        rw [e]
+        linarith)
+    have := hm (left_mem_Icc.2 hz) (right_mem_Icc.2 hz) hz
+    simp only [sub_self, J_apply_zero, zero_sub] at this
+    have h1 := hg.F1_le zero_le_one
+    have h2 := hJle (z - 1)
+    rw [hval] at h2
+    linarith
+  exact le_of_tendsto (hg.F1_tendsto hlam hfix) ((eventually_ge_atTop 1).mono key)
+
+/-- `β ≥ γ = ∫₀¹ g`. -/
+lemma betaL_ge : F1 g 1 ≤ betaL g := hg.F1_le_beta hlam hfix zero_le_one
+
 end InG
 
 /-- The properties of the solution of `(A_λ)` in Weyl's theorem, p. 406
@@ -216,12 +265,12 @@ structure IsWeylSol (lam k : ℝ) (w w₁ w₂ : ℝ → ℝ) : Prop where
 /-- Weyl's theorem from a fixed point of `Φ_λ`, `λ > 0`. -/
 theorem InG.weyl_theorem_of_fixed {g : ℝ → ℝ} {lam : ℝ} (hg : InG g) (hlam : 0 < lam)
     (hfix : ∀ z, 0 ≤ z → PhiL lam g z = g z) (k : ℝ) (hk : 0 < k) :
-    ∃ w w₁ w₂ : ℝ → ℝ, IsWeylSol lam k w w₁ w₂ := by
+    ∃ w w₁ w₂ : ℝ → ℝ, IsWeylSol lam k w w₁ w₂ ∧ w₂ 0 ^ 2 * InG.betaL g ^ 3 = k ^ 3 := by
   have hβ := hg.betaL_pos hlam hfix
   have hγ := hg.F1_one_pos hlam hfix
-  set c := Real.sqrt (k / betaL g) with hcdef
+  set c := Real.sqrt (k / InG.betaL g) with hcdef
   have hc : 0 < c := Real.sqrt_pos.2 (div_pos hk hβ)
-  have hc2 : c ^ 2 * betaL g = k := by
+  have hc2 : c ^ 2 * InG.betaL g = k := by
     rw [hcdef, Real.sq_sqrt (div_pos hk hβ).le, div_mul_cancel₀ _ hβ.ne']
   have hlin : ∀ z : ℝ, HasDerivAt (fun z => c * z) c z := fun z => by
     simpa using (hasDerivAt_id z).const_mul c
@@ -229,7 +278,7 @@ theorem InG.weyl_theorem_of_fixed {g : ℝ → ℝ} {lam : ℝ} (hg : InG g) (hl
   refine ⟨fun z => c * F0 g (c * z), fun z => c ^ 2 * F1 g (c * z), fun z => c ^ 3 * g (c * z),
     ⟨fun z => ?_, fun z => ?_, fun z hz => ?_, by simp [F0], by simp [F1], ?_,
       fun x hx y hy hxy => ?_, fun z hz => ?_, ?_, fun z hz => ?_, fun x hx y hy hxy => ?_,
-      ⟨c ^ 3 * Real.exp (F1 g 1), F1 g 1 / 2 * c ^ 2, by positivity, fun z hz => ?_⟩⟩⟩
+      ⟨c ^ 3 * Real.exp (F1 g 1), F1 g 1 / 2 * c ^ 2, by positivity, fun z hz => ?_⟩⟩, ?_⟩
   · have := ((hg.hasDerivAt_F0 (c * z)).comp z (hlin z)).const_mul c
     deriv_conv this
     ring
@@ -249,7 +298,7 @@ theorem InG.weyl_theorem_of_fixed {g : ℝ → ℝ} {lam : ℝ} (hg : InG g) (hl
       (hg.F1_monotoneOn (mul_nonneg hc.le hx) (mul_le_mul_of_nonneg_left hxy hc.le))
       (by positivity)
   · have := hg.F1_le_beta hlam hfix (mul_nonneg hc.le hz)
-    calc c ^ 2 * F1 g (c * z) ≤ c ^ 2 * betaL g :=
+    calc c ^ 2 * F1 g (c * z) ≤ c ^ 2 * InG.betaL g :=
           mul_le_mul_of_nonneg_left this (by positivity)
       _ = k := hc2
   · show 0 < c ^ 3 * g (c * 0)
@@ -267,6 +316,9 @@ theorem InG.weyl_theorem_of_fixed {g : ℝ → ℝ} {lam : ℝ} (hg : InG g) (hl
           rw [mul_assoc]
           congr 3
           ring
+  · show (c ^ 3 * g (c * 0)) ^ 2 * InG.betaL g ^ 3 = k ^ 3
+    rw [mul_zero, InG.fixed_zero hfix, ← hc2]
+    ring
 
 /-- **Weyl's theorem (p. 406)**: for `λ ≥ 0` and `k > 0` the problem `(A_λ)`,
 
@@ -286,6 +338,57 @@ theorem weyl_theorem {lam : ℝ} (hlam : 0 ≤ lam) (k : ℝ) (hk : 0 < k) :
     exact ⟨w, w₁, w₂, d0, d1, fun z hz => (d2 z hz).congr_deriv (by ring), z0, z1, hl,
       m1.monotoneOn, fun z hz => (l1 z hz).le, p2 0 le_rfl, fun z hz => (p2 z hz).le, a2, dec⟩
   · obtain ⟨g, hg, hfix⟩ := exists_fixed hpos.le
-    exact hg.weyl_theorem_of_fixed hpos (fun z _ => hfix z) k hk
+    obtain ⟨w, w₁, w₂, h, _⟩ := hg.weyl_theorem_of_fixed hpos (fun z _ => hfix z) k hk
+    exact ⟨w, w₁, w₂, h⟩
+
+/-- **Explicit bounds for `w''(0)`** (Weyl's appraisal `c < β < 1 + √(π/2c)`, p. 405, and
+`w''(0) = α k^{3/2}`, `α = β^{-3/2}`): for `λ > 0` the solution of Weyl's theorem can be
+chosen such that, with `K = c₁ + c₂ = 1 + 2λ/3 + max (1 - 2λ) 0`,
+
+  `k³ / (1 + √(π K / 2))³ ≤ w''(0)² ≤ (2K)³ k³`. -/
+theorem weyl_theorem_bounds {lam : ℝ} (hlam : 0 < lam) (k : ℝ) (hk : 0 < k) :
+    ∃ w w₁ w₂ : ℝ → ℝ, IsWeylSol lam k w w₁ w₂ ∧
+      k ^ 3 ≤ w₂ 0 ^ 2 * (1 + Real.sqrt (Real.pi * (c1 lam + c2 lam) / 2)) ^ 3 ∧
+      w₂ 0 ^ 2 ≤ (2 * (c1 lam + c2 lam)) ^ 3 * k ^ 3 := by
+  obtain ⟨g, hg, hfix'⟩ := exists_fixed hlam.le
+  have hfix : ∀ z, 0 ≤ z → PhiL lam g z = g z := fun z _ => hfix' z
+  obtain ⟨w, w₁, w₂, h, he⟩ := hg.weyl_theorem_of_fixed hlam hfix k hk
+  have hc2 : 0 ≤ c2 lam := le_max_right _ _
+  have hc1 : 0 < c1 lam := by
+    unfold c1
+    positivity
+  set K := c1 lam + c2 lam with hK
+  have hK0 : 0 < K := by linarith
+  have hγ := hg.F1_one_pos hlam hfix
+  have hγK := hg.F1_one_ge hlam hfix
+  rw [← hK] at hγK
+  have hβ := hg.betaL_pos hlam hfix
+  -- upper bound for `β`
+  have hsq : Real.sqrt (Real.pi / F1 g 1) / 2 ≤ Real.sqrt (Real.pi * K / 2) := by
+    have h1 : Real.pi / F1 g 1 ≤ Real.pi * (2 * K) := by
+      rw [div_le_iff₀ hγ]
+      have h2 : 1 ≤ 2 * K * F1 g 1 := by
+        have := (div_le_iff₀ (by positivity : (0 : ℝ) < 2 * K)).1 hγK
+        linarith
+      nlinarith [Real.pi_pos]
+    have h3 : Real.sqrt (Real.pi * (2 * K)) = 2 * Real.sqrt (Real.pi * K / 2) := by
+      rw [show Real.pi * (2 * K) = 2 ^ 2 * (Real.pi * K / 2) by ring,
+        Real.sqrt_mul (by positivity), Real.sqrt_sq (by norm_num)]
+    have := Real.sqrt_le_sqrt h1
+    rw [h3] at this
+    linarith
+  have hβle : InG.betaL g ≤ 1 + Real.sqrt (Real.pi * K / 2) :=
+    (hg.betaL_le hlam hfix).trans (by linarith)
+  have hβge : 1 / (2 * K) ≤ InG.betaL g := hγK.trans (hg.betaL_ge hlam hfix)
+  refine ⟨w, w₁, w₂, h, ?_, ?_⟩
+  · rw [← he]
+    exact mul_le_mul_of_nonneg_left (pow_le_pow_left₀ hβ.le hβle 3) (sq_nonneg _)
+  · have h1 : 1 ≤ 2 * K * InG.betaL g := by
+      have := (div_le_iff₀ (by positivity : (0 : ℝ) < 2 * K)).1 hβge
+      linarith
+    have h2 : (1 : ℝ) ≤ (2 * K * InG.betaL g) ^ 3 := one_le_pow₀ h1
+    calc w₂ 0 ^ 2 ≤ w₂ 0 ^ 2 * (2 * K * InG.betaL g) ^ 3 := le_mul_of_one_le_right (sq_nonneg _) h2
+      _ = (2 * K) ^ 3 * (w₂ 0 ^ 2 * InG.betaL g ^ 3) := by ring
+      _ = (2 * K) ^ 3 * k ^ 3 := by rw [he]
 
 end Blasius

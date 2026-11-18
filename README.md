@@ -65,6 +65,7 @@ In the classical normalisation this is Blasius's problem
 | `exists_fixed` | Φ_λ has a fixed point (Weyl's fixed-point principle; Brouwer's theorem via the Appendix argument) |
 | `weyl_Alam_exists` | for λ ≥ 0, k > 0 there is `w` with `w''' + 2ww'' + 2λ(k² - w'²) = 0`, `w(0) = w'(0) = 0`, `w'(∞) = k` |
 | `InG.F1_one_ge`, `InG.omg_le_gauss`, `InG.chi_decay` | Lemmas 3 and 4 (`WeylDecay.lean`) |
+| `weyl_theorem_bounds` | for λ > 0, with `K = 1 + 2λ/3 + max(1 - 2λ, 0)`: `k³/(1 + √(πK/2))³ ≤ w''(0)² ≤ (2K)³k³` (from Weyl's appraisal of β, p. 405) |
 | `weyl_theorem` | **Weyl's theorem, p. 406, in full** (`WeylDecay.lean`): the solution can be chosen such that `w'` increases monotonically from 0 to k and `w''` decreases monotonically from `w''(0) > 0` to zero, with `w''(z) ≤ C e^{-γz²}` |
 
 Brouwer's fixed-point theorem is not in Mathlib; it is taken from
