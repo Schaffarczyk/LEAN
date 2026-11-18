@@ -47,6 +47,18 @@ In the classical normalisation this is Blasius's problem
 | `weyl_order_exists`, `weyl_order_unique` | `f^(ν+1) + 2 f f^(ν) = 0` with arbitrary initial data (Weyl's (19), (21), (23)) |
 | `goldstein_wake_exists` | Goldstein's wake problem `w''' + 2 w w'' - w'² = 0`, `w(0) = w''(0) = 0`, `w''(∞) = a` |
 
+§§6–8 (general λ ≥ 0) are formalised in `LinearSystem.lean`, `WeylAux.lean`,
+`WeylOperator.lean`, `WeylContinuity.lean`, `WeylFixed.lean`, `WeylFixedPoint.lean`:
+
+| Theorem | Statement |
+|---|---|
+| `Coop.om_sign`, `Coop.lw_unique` | Weyl's auxiliary theorem (p. 398) |
+| `InG.lw_le`, `InG.Yw_le` | Lemmas 1 and 2 |
+| `PhiL_tendsto` | Lemma 5: continuity of the operator Φ_λ |
+| `InG.weyl_Alam_of_fixed` | a fixed point of Φ_λ yields a solution of (A_λ) |
+| `exists_fixed_of_brouwer` | Φ_λ has a fixed point, given Brouwer's theorem for cubes |
+| `weyl_Alam_exists_of_brouwer` | existence for `w''' + 2ww'' + 2λ(k² - w'²) = 0`, `w(0) = w'(0) = 0`, `w'(∞) = k`, given Brouwer's theorem for cubes |
+
 No `sorry`. Axioms used: `propext`, `Classical.choice`, `Quot.sound`.
 
 ### Proof outline
