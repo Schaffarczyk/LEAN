@@ -30,6 +30,10 @@ for the fixed-point equation g = Ψ{g}.
 - [x] Stage B – §3 (`WeylGeneral.lean`): order ν with general initial data, inequality (23), Goldstein's wake; the power-series remarks are not formalised
 - [ ] Stage C – §§4–5
 - [ ] Stage D – §§6–8
+  - [x] D1: linear system and auxiliary theorem in abstract form (`LinearSystem.lean`, `WeylAux.lean`)
+  - [ ] D2: the operator Φ_λ for a given `g`; Lemmas 1–4
+  - [ ] D3: Lemma 5 (continuity of Φ_λ)
+  - [ ] D4: fixed-point principle from Brouwer (dependency found: `harfe/fixed-point-theorems-lean4`, MIT, needs Mathlib v4.35.0); existence theorem for (A_λ)
 
 ## Stage A: rest of §2 (small; next)
 
