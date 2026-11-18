@@ -26,7 +26,7 @@ for the fixed-point equation g = Ψ{g}.
 
 - [x] §2 existence (`weyl_A0_exists`, `blasius_exists`, `blasius_exists_deriv`)
 - [x] §2 uniqueness (`weyl_A0_unique`, `IsBlasiusSol.unique`)
-- [ ] Stage A – rest of §2
+- [x] Stage A – rest of §2 (`BlasiusAsymptotics.lean`), except a decimal bound on α (item 5)
 - [ ] Stage B – §3
 - [ ] Stage C – §§4–5
 - [ ] Stage D – §§6–8

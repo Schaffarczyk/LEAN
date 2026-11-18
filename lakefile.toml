@@ -1,5 +1,5 @@
 name = "blasius"
-defaultTargets = ["Blasius"]
+defaultTargets = ["Blasius", "BlasiusAsymptotics"]
 
 [[require]]
 name = "mathlib"
@@ -8,3 +8,6 @@ rev = "v4.24.0"
 
 [[lean_lib]]
 name = "Blasius"
+
+[[lean_lib]]
+name = "BlasiusAsymptotics"

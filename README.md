@@ -29,6 +29,16 @@ In the classical normalisation this is Blasius's problem
 | `blasius_exists_deriv` | the same, stated with Mathlib's `deriv` |
 | `exists_isBlasiusSol`, `IsBlasiusSol.unique` | existence and uniqueness for Blasius's problem |
 
+`BlasiusAsymptotics.lean` adds the rest of §2 for the unique solution:
+
+| Theorem | Statement |
+|---|---|
+| `weyl_A0_structure` | every solution is Töpfer's `κ f(κ z)` with `κ² β = k` |
+| `weyl_A0_second_deriv_zero` | `w''(0)² β³ = k³`, i.e. `w''(0) = α k^(3/2)`, `α = β^(-3/2)` (Weyl's (11)) |
+| `weyl_A0_w1`, `weyl_A0_w2` | `w'` increases strictly towards `k`; `w''` is positive, decreasing, with Gaussian decay |
+| `f0_asymptotic`, `weyl_A0_asymptotic` | Weyl's asymptotic formulas (17), (18) |
+| `β_ge_gamma` | `β ≥ 3^(1/3) Γ(4/3)` |
+
 No `sorry`. Axioms used: `propext`, `Classical.choice`, `Quot.sound`.
 
 ### Proof outline
