@@ -5,6 +5,12 @@
 Machine-checked proofs in [Lean 4](https://lean-lang.org) with
 [Mathlib](https://github.com/leanprover-community/mathlib4).
 
+This repository formalises H. Weyl, *On the differential equations of the simplest
+boundary-layer problems*, Annals of Mathematics 43 (1942), 381–407: §2 (Blasius), §3
+(arbitrary order, Goldstein's wake) and §§6–8 (existence for the problems (A_λ), λ ≥ 0).
+The headline result is `Blasius.weyl_Alam_exists` in `WeylMain.lean`. See `PLAN.md` for
+what is and is not covered.
+
 ## Blasius's boundary-layer problem: existence and uniqueness
 
 `Blasius.lean` formalises §2 of
@@ -101,9 +107,8 @@ Alois Peter Schaffarczyk (University of Applied Sciences Kiel) and is verified b
 
 ## How to cite
 
-A. P. Schaffarczyk, *Existence and uniqueness for the Blasius boundary-layer problem,
-formalised in Lean 4*, Zenodo, 2026. https://doi.org/10.5281/zenodo.24333373
-(DOI for all versions; v1.0.1 is 10.5281/zenodo.24333374.)
+A. P. Schaffarczyk, *Weyl's boundary-layer theorems formalised in Lean 4*, Zenodo, 2026.
+https://doi.org/10.5281/zenodo.24333373 (DOI for all versions.)
 
 ## License
 
