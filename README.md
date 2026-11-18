@@ -1,5 +1,7 @@
 # LEAN
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24333373.svg)](https://doi.org/10.5281/zenodo.24333373)
+
 Machine-checked proofs in [Lean 4](https://lean-lang.org) with
 [Mathlib](https://github.com/leanprover-community/mathlib4).
 
@@ -58,6 +60,12 @@ Lean 4.24.0, Mathlib v4.24.0.
 
 The Lean code was generated with the AI assistant Claude (Anthropic) at the request of
 Alois Peter Schaffarczyk (University of Applied Sciences Kiel) and is verified by the Lean kernel.
+
+## How to cite
+
+A. P. Schaffarczyk, *Existence and uniqueness for the Blasius boundary-layer problem,
+formalised in Lean 4*, Zenodo, 2026. https://doi.org/10.5281/zenodo.24333373
+(DOI for all versions; v1.0.1 is 10.5281/zenodo.24333374.)
 
 ## License
 
