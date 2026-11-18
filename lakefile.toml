@@ -1,10 +1,16 @@
 name = "blasius"
-defaultTargets = ["Blasius", "BlasiusAsymptotics", "WeylGeneral", "LinearSystem", "WeylAux", "WeylOperator", "WeylContinuity", "WeylFixed", "WeylFixedPoint"]
+allowNonModules = true
+defaultTargets = ["Blasius", "BlasiusAsymptotics", "WeylGeneral", "LinearSystem", "WeylAux", "WeylOperator", "WeylContinuity", "WeylFixed", "WeylFixedPoint", "WeylMain"]
 
 [[require]]
 name = "mathlib"
 git = "https://github.com/leanprover-community/mathlib4"
-rev = "v4.24.0"
+rev = "v4.35.0"
+
+[[require]]
+name = "fixed-point-theorems"
+git = "https://github.com/harfe/fixed-point-theorems-lean4"
+rev = "93a3eed3364281a9dbf9652bb52356a8db65057c"
 
 [[lean_lib]]
 name = "Blasius"
@@ -32,3 +38,6 @@ name = "WeylFixed"
 
 [[lean_lib]]
 name = "WeylFixedPoint"
+
+[[lean_lib]]
+name = "WeylMain"

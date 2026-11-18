@@ -37,11 +37,11 @@ lemma IsLinOn.sub_mul {a b : ℝ → ℝ} {T : ℝ} {ψ₁ χ₁ ψ₂ χ₂ : �
   constructor
   · intro z h0 h1
     have := (h₁.dψ z h0 h1).sub ((h₂.dψ z h0 h1).const_mul c)
-    convert this using 1
+    deriv_conv this
     ring
   · intro z h0 h1
     have := (h₁.dχ z h0 h1).sub ((h₂.dχ z h0 h1).const_mul c)
-    convert this using 1
+    deriv_conv this
     ring
 
 /-- Hypotheses on the coefficients: continuous, `a ≥ 1`, `b ≥ 0`. -/
@@ -121,7 +121,7 @@ lemma wronskian {z : ℝ} (hz : 0 ≤ z) :
     hz (fun x h0 h1 => by
       have := (((h.eta z).dψ x h0 h1).mul ((h.theta z).dχ x h0 h1)).sub
         (((h.theta z).dψ x h0 h1).mul ((h.eta z).dχ x h0 h1))
-      convert this using 1
+      deriv_conv this
       ring)
   simpa using this
 
@@ -226,7 +226,7 @@ theorem lw_unique {c : ℝ} (h1 : ∀ z, 0 ≤ z → 0 ≤ etaψ a b z - c * th�
     rw [Lw, le_div_iff₀ (h.thψ_pos hpos)]
     linarith
   · by_contra hlt
-    push_neg at hlt
+    push Not at hlt
     have hm : 0 < lw a b - c := sub_pos.2 hlt
     set z := 2 / (lw a b - c) with hzdef
     have hz : 0 ≤ z := by positivity

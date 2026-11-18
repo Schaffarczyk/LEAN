@@ -514,7 +514,7 @@ theorem weyl_Alam_exists_of_brouwer (hB : BrouwerCube) {lam : ℝ} (hlam : 0 ≤
     obtain ⟨w, w₁, w₂, d0, d1, d2, z0, z1, hl⟩ := weyl_A0_exists k hk
     refine ⟨w, w₁, w₂, d0, d1, fun z hz => ?_, z0, z1, hl⟩
     have := d2 z hz
-    convert this using 1
+    deriv_conv this
     rw [← h0]
     ring
   · obtain ⟨g, hg, hfix⟩ := exists_fixed_of_brouwer hB hlam

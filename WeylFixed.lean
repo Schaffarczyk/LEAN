@@ -58,7 +58,7 @@ lemma first_integral {z : ℝ} (hz : 0 ≤ z) :
       rw [bL_eq lam h0] at h2
       have h3 := ((hg.hasDerivAt_F1 x).pow 2).const_mul (2 * lam)
       have h4 := h2.sub h3
-      convert h4 using 1
+      deriv_conv h4
       rw [fixed_eq hfix h0]
       have := (pp_pos (g := g) x).ne'
       simp only [Nat.cast_ofNat, Nat.add_one_sub_one, pow_one]
@@ -98,12 +98,11 @@ lemma F1_pos : 0 < F1 g (1 / (c1 lam + c2 lam)) := by
     (fun x _ _ => by
       have h3 : HasDerivAt (fun x : ℝ => x - K * x ^ 2 / 2) (1 - K * x) x := by
         have := (hasDerivAt_id x).sub ((((hasDerivAt_id x).pow 2).const_mul K).div_const 2)
-        convert this using 1
+        deriv_conv this
         simp
         ring
       exact (hg.hasDerivAt_F1 x).sub h3)
     (fun x h0 h1 => by
-      beta_reduce
       linarith [hlow x h0 (h1.trans hz1)])
   have := hm (left_mem_Icc.2 hz0.le) (right_mem_Icc.2 hz0.le) hz0.le
   simp only [F1, J_apply_zero] at this
@@ -200,7 +199,6 @@ theorem lw_eq : lw (aL g) (bL lam g) = 2 * lam * betaL g ^ 2 := by
         simpa using (hasDerivAt_id x).const_mul s
       exact (((hg.coop hlam.le).om _).dψ x h0 h1).sub h3)
     (fun x h0 _ => by
-      beta_reduce
       have h1 := hle x h0
       have h2 := (hg.coop hlam.le).a1 x
       have h3 := hg.omχ_nonpos hlam.le h0
@@ -261,14 +259,14 @@ theorem weyl_Alam_of_fixed (k : ℝ) (hk : 0 < k) :
     fun z => ?_, fun z => ?_, fun z hz => ?_, by simp [F0], by simp [F1], ?_, fun z hz => ?_,
     fun x hx y hy hxy => ?_⟩
   · have := ((hg.hasDerivAt_F0 (c * z)).comp z (hlin z)).const_mul c
-    convert this using 1
+    deriv_conv this
     ring
   · have := ((hg.hasDerivAt_F1 (c * z)).comp z (hlin z)).const_mul (c ^ 2)
-    convert this using 1
+    deriv_conv this
     ring
   · have := ((hg.hasDerivWithinAt_fixed hlam hfix (mul_nonneg hc.le hz)).comp z
       (hlin z).hasDerivWithinAt hmaps).const_mul (c ^ 3)
-    convert this using 1
+    deriv_conv this
     rw [← hc2]
     ring
   · have h1 : Tendsto (fun z => c * z) atTop atTop := tendsto_id.const_mul_atTop hc

@@ -29,13 +29,13 @@ for the fixed-point equation g = Ψ{g}.
 - [x] Stage A – rest of §2 (`BlasiusAsymptotics.lean`), except a decimal bound on α (item 5)
 - [x] Stage B – §3 (`WeylGeneral.lean`): order ν with general initial data, inequality (23), Goldstein's wake; the power-series remarks are not formalised
 - [ ] Stage C – §§4–5
-- [ ] Stage D – §§6–8
+- [x] Stage D – §§6–8 (existence for (A_λ), λ ≥ 0)
   - [x] D1: linear system and auxiliary theorem in abstract form (`LinearSystem.lean`, `WeylAux.lean`)
   - [x] D2: the operator Φ_λ, Lemma 1, Lemma 2, equicontinuity (`WeylOperator.lean`); Lemmas 3–4 move to D5
   - [x] D5: from a fixed point of Φ_λ to a solution of (A_λ) (`WeylFixed.lean`); the Gaussian decay of Lemmas 3–4 is not needed for this and not formalised
   - [x] D3: Lemma 5, continuity of Φ_λ (`WeylContinuity.lean`)
   - [x] D4a: fixed-point principle with Brouwer's theorem for cubes as a hypothesis (`WeylFixedPoint.lean`): `exists_fixed_of_brouwer`, `weyl_Alam_exists_of_brouwer`
-  - [ ] D4b: discharge the hypothesis from `harfe/fixed-point-theorems-lean4` (MIT; needs Lean/Mathlib v4.35.0, so the whole project has to be ported)
+  - [x] D4b: hypothesis discharged in `WeylMain.lean` (`weyl_Alam_exists`); project ported to Lean/Mathlib v4.35.0
 
 ## Stage A: rest of §2 (small; next)
 

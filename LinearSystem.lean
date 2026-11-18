@@ -101,11 +101,11 @@ lemma comb (h₁ : IsLinOn a b T ψ₁ χ₁) (h₂ : IsLinOn a b T ψ₂ χ₂)
   constructor
   · intro z h0 h1
     have := ((h₁.dψ z h0 h1).const_mul c₁).add ((h₂.dψ z h0 h1).const_mul c₂)
-    convert this using 1
+    deriv_conv this
     ring
   · intro z h0 h1
     have := ((h₁.dχ z h0 h1).const_mul c₁).add ((h₂.dχ z h0 h1).const_mul c₂)
-    convert this using 1
+    deriv_conv this
     ring
 
 /-- Uniqueness: a solution with vanishing initial values vanishes (for `a, b ≥ 0`). -/
@@ -121,7 +121,7 @@ lemma eq_zero (ha : Continuous a) (hb : Continuous b) (ha0 : ∀ z, 0 ≤ a z)
         (-(Real.exp (-(J (fun t => a t + b t) x)) * (a x + b x) * (ψ x - χ x) ^ 2)) x := by
     intro x hx0 hxT
     have := ((((h.dψ x hx0 hxT).pow 2).add ((h.dχ x hx0 hxT).pow 2))).mul (hW x)
-    convert this using 1
+    deriv_conv this
     simp only [Nat.cast_ofNat, Nat.add_one_sub_one, pow_one, Pi.add_apply, Pi.pow_apply]
     ring
   have hanti := antitoneOn_Icc_of_hasDerivAt (s := 0) (t := T) hF fun x hx0 _ => by
@@ -136,7 +136,7 @@ lemma eq_zero (ha : Continuous a) (hb : Continuous b) (ha0 : ∀ z, 0 ≤ a z)
   have hpos := Real.exp_pos (-(J (fun t => a t + b t) z))
   have hsum : ψ z ^ 2 + χ z ^ 2 ≤ 0 := by
     by_contra hcon
-    push_neg at hcon
+    push Not at hcon
     have := mul_pos hcon hpos
     norm_num at hle
     linarith
@@ -160,11 +160,11 @@ lemma reverse (h : IsLinOn a b T ψ χ) :
   constructor
   · intro z h0 h1
     have := HasDerivAt.comp_const_sub T z (h.dψ (T - z) (by linarith) (by linarith))
-    convert this using 1
+    deriv_conv this
     ring
   · intro z h0 h1
     have := (HasDerivAt.comp_const_sub T z (h.dχ (T - z) (by linarith) (by linarith))).neg
-    convert this using 1
+    deriv_conv this
     ring
 
 end IsLinOn
@@ -188,8 +188,8 @@ lemma pic_continuous (ha : Continuous a) (hb : Continuous b) :
   | 0 => ⟨continuous_const, continuous_const⟩
   | n + 1 => by
       obtain ⟨h1, h2⟩ := pic_continuous ha hb n
-      have j1 := J_continuous (ha.mul h2)
-      have j2 := J_continuous (hb.mul h1)
+      have j1 := J_continuous (g := fun t => a t * (pic a b ψ0 χ0 n).2 t) (ha.mul h2)
+      have j2 := J_continuous (g := fun t => b t * (pic a b ψ0 χ0 n).1 t) (hb.mul h1)
       constructor
       · show Continuous fun z => ψ0 + J (fun t => a t * (pic a b ψ0 χ0 n).2 t) (max z 0)
         fun_prop
@@ -249,7 +249,8 @@ lemma pic_diff (ha : Continuous a) (hb : Continuous b) {R M D : ℝ} (hR : 0 ≤
           |J (fun s => c s * u s) t - J (fun s => c s * v s) t|
             ≤ D * M ^ (n + 1) / (n + 1)! * t ^ (n + 1) := by
         intro c u v hc hu hv hcM huv
-        have := J_sub_le_on (hc.mul hu) (hc.mul hv)
+        have := J_sub_le_on (u := fun s => c s * u s) (v := fun s => c s * v s)
+          (hc.mul hu) (hc.mul hv)
           (d := fun s => M * (D * M ^ n / n !) * s ^ n) (by fun_prop) (a := R)
           (fun s hs hsR => by
             rw [← mul_sub, abs_mul]
@@ -493,11 +494,11 @@ theorem sol_isLinOn (ha : Continuous a) (hb : Continuous b) (T : ℝ) :
   obtain ⟨c1, c2⟩ := lin_continuous ψ0 χ0 ha hb
   constructor
   · intro z hz _
-    have := (J_hasDerivAt (ha.mul c2) z).const_add ψ0
+    have := (J_hasDerivAt (g := fun t => a t * linχ a b ψ0 χ0 t) (ha.mul c2) z).const_add ψ0
     rw [(lin_eq_sol ψ0 χ0 ha hb hz).2] at this
     exact this
   · intro z hz _
-    have := (J_hasDerivAt (hb.mul c1) z).const_add χ0
+    have := (J_hasDerivAt (g := fun t => b t * linψ a b ψ0 χ0 t) (hb.mul c1) z).const_add χ0
     rw [(lin_eq_sol ψ0 χ0 ha hb hz).1] at this
     exact this
 

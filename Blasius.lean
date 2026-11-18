@@ -49,6 +49,13 @@ noncomputable section
 
 namespace Blasius
 
+/-- `deriv_conv h` closes a goal `HasDerivAt f f' x` (or `HasDerivWithinAt f f' s x`) from
+`h : HasDerivAt f g' x`, leaving the goal `f' = g'`. -/
+macro "deriv_conv " h:term : tactic =>
+  `(tactic| (first
+    | refine HasDerivAt.congr_deriv $h (Eq.symm ?_)
+    | refine HasDerivWithinAt.congr_deriv $h (Eq.symm ?_)) <;> beta_reduce)
+
 /-! ## The primitive `J g (z) = ∫₀ᶻ g` -/
 
 /-- The primitive of `g` vanishing at `0`. -/
@@ -104,7 +111,7 @@ lemma J_monomial (c : ℝ) (k : ℕ) (z : ℝ) :
       HasDerivAt (fun t : ℝ => c / (k + 1) * t ^ (k + 1)) (c * t ^ k) t := by
     intro t _
     have := (hasDerivAt_pow (k + 1) t).const_mul (c / ((k : ℝ) + 1))
-    convert this using 1
+    deriv_conv this
     simp only [Nat.add_sub_cancel, Nat.cast_add, Nat.cast_one]
     field_simp
   rw [intervalIntegral.integral_eq_sub_of_hasDerivAt h
@@ -381,7 +388,7 @@ lemma hasDerivAt_h (z : ℝ) : HasDerivAt h (-(2 * f0 z * h z)) z := by
   have hJ : HasDerivAt (J f0) (f0 z) z := J_hasDerivAt f0_continuous z
   have h2 : HasDerivAt (fun x => -(2 * J f0 x)) (-(2 * f0 z)) z := (hJ.const_mul 2).neg
   have h3 := h2.exp
-  convert h3 using 1
+  deriv_conv h3
   unfold h
   ring
 
@@ -489,16 +496,16 @@ theorem weyl_A0_exists (k : ℝ) (hk : 0 < k) :
   refine ⟨fun z => κ * f0 (κ * z), fun z => κ ^ 2 * f1 (κ * z), fun z => κ ^ 3 * g (κ * z),
     fun z => ?_, fun z => ?_, fun z hz => ?_, by simp, by simp, ?_⟩
   · have := ((hasDerivAt_f0 (κ * z)).comp z (hlin z)).const_mul κ
-    convert this using 1
+    deriv_conv this
     ring
   · have := ((hasDerivAt_f1 (κ * z)).comp z (hlin z)).const_mul (κ ^ 2)
-    convert this using 1
+    deriv_conv this
     ring
   · have hmaps : MapsTo (fun z => κ * z) (Ici (0 : ℝ)) (Ici 0) := fun x hx =>
       mul_nonneg hκ.le hx
     have := ((hasDerivWithinAt_g (mul_nonneg hκ.le hz)).comp z
       (hlin z).hasDerivWithinAt hmaps).const_mul (κ ^ 3)
-    convert this using 1
+    deriv_conv this
     ring
   · have h1 : Tendsto (fun z => κ * z) atTop atTop := tendsto_id.const_mul_atTop hκ
     have h2 := (f1_tendsto.comp h1).const_mul (κ ^ 2)
@@ -519,7 +526,7 @@ theorem blasius_exists :
     fun z => (h0 z).const_mul 2, fun z => (h1 z).const_mul 2, fun z hz => ?_,
     by simp [hw0], by simp [hw1], ?_⟩
   · have := (h2 z hz).const_mul 2
-    convert this using 1
+    deriv_conv this
     ring
   · have := hlim.const_mul 2
     norm_num at this
@@ -599,7 +606,7 @@ lemma eq_J_of_hasDerivWithinAt {F p : ℝ → ℝ} (hp : Continuous p)
     intro x hx
     have := ((hF x hx.1).mono (Ici_subset_Ici.2 hx.1)).sub
       (J_hasDerivAt hp x).hasDerivWithinAt
-    simpa using this
+    exact this.congr_deriv (sub_self _)
   have key : F z - J p z = F 0 - J p 0 :=
     constant_of_has_deriv_right_zero hc hd z (right_mem_Icc.2 hz)
   rw [h0, J_apply_zero] at key
@@ -637,7 +644,7 @@ lemma rep (h : IsSol w w₁ w₂) {z : ℝ} (hz : 0 ≤ z) :
       HasDerivWithinAt (fun x => w₂ x * Real.exp (2 * K (clamp w₂) x)) 0 (Ici x) x := by
     intro x hx
     have := ((h.d2 x hx.1).mono (Ici_subset_Ici.2 hx.1)).mul (hK x).hasDerivWithinAt
-    convert this using 1
+    deriv_conv this
     rw [← h.w_eq hx.1]
     ring
   have key : w₂ z * Real.exp (2 * K (clamp w₂) z) = w₂ 0 * Real.exp (2 * K (clamp w₂) 0) :=
@@ -655,20 +662,20 @@ lemma scale (h : IsSol w w₁ w₂) {l : ℝ} (hl : 0 < l) :
     mul_nonneg hl.le hx
   refine ⟨fun z hz => ?_, fun z hz => ?_, fun z hz => ?_, by simp [h.z0], by simp [h.z1]⟩
   · have := ((h.d0 (l * z) (mul_nonneg hl.le hz)).comp z (hlin z) hmaps).const_mul l
-    convert this using 1
+    deriv_conv this
     ring
   · have := ((h.d1 (l * z) (mul_nonneg hl.le hz)).comp z (hlin z) hmaps).const_mul (l ^ 2)
-    convert this using 1
+    deriv_conv this
     ring
   · have := ((h.d2 (l * z) (mul_nonneg hl.le hz)).comp z (hlin z) hmaps).const_mul (l ^ 3)
-    convert this using 1
+    deriv_conv this
     ring
 
 /-- If `w'(z) → k > 0`, then `w''(0) > 0`: otherwise `w'' ≤ 0` throughout and `w' ≤ 0`. -/
 lemma pos_of_tendsto (h : IsSol w w₁ w₂) {k : ℝ} (hk : 0 < k)
     (hlim : Tendsto w₁ atTop (𝓝 k)) : 0 < w₂ 0 := by
   by_contra hneg
-  push_neg at hneg
+  push Not at hneg
   have h2 : ∀ z, 0 ≤ z → w₂ z ≤ 0 := fun z hz => by
     rw [h.rep hz]
     exact mul_nonpos_of_nonpos_of_nonneg hneg (Real.exp_pos _).le
@@ -832,7 +839,7 @@ lemma IsBlasiusSol.isSol {f f₁ f₂ : ℝ → ℝ} (h : IsBlasiusSol f f₁ f�
   refine ⟨fun z hz => (h.d0 z hz).div_const 2, fun z hz => (h.d1 z hz).div_const 2,
     fun z hz => ?_, by simp [h.z0], by simp [h.z1]⟩
   have := (h.d2 z hz).div_const 2
-  convert this using 1
+  deriv_conv this
   ring
 
 /-- **Existence** of a solution of Blasius's problem. -/
@@ -848,7 +855,6 @@ theorem IsBlasiusSol.unique {f f₁ f₂ p p₁ p₂ : ℝ → ℝ} (hf : IsBlas
   intro η hη
   have key := weyl_A0_unique (k := 1 / 2) (by norm_num) hf.isSol (hf.lim.div_const 2)
     hp.isSol (hp.lim.div_const 2) η hη
-  simp only at key
   obtain ⟨k0, k1, k2⟩ := key
   exact ⟨by linarith, by linarith, by linarith⟩
 

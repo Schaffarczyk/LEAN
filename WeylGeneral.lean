@@ -387,7 +387,7 @@ theorem weyl_order_exists (ν : ℕ) {P : ℝ → ℝ} (hP : Continuous P) :
       have h2 : HasDerivAt (fun x => -(2 * J (fun t => P t + Jm ν g t) x))
           (-(2 * (P z + Jm ν g z))) z := ((J_hasDerivAt hF z).const_mul 2).neg
       have h3 := h2.exp
-      convert h3 using 1
+      deriv_conv h3
       ring
   refine ⟨g, hg, ?_, hg0, fun z hz => ?_, fun z hz => ⟨?_, ?_⟩⟩
   · rw [hrep 0 le_rfl]
@@ -434,7 +434,7 @@ theorem weyl_order_unique (ν : ℕ) {P : ℝ → ℝ} (hP : Continuous P) {γ �
         (fun x => g x * Real.exp (2 * J (fun t => P t + Jm ν g t) x)) 0 (Ici x) x := by
       intro x hx
       have := ((dg x hx.1).mono (Ici_subset_Ici.2 hx.1)).mul (hE x).hasDerivWithinAt
-      convert this using 1
+      deriv_conv this
       ring
     have key : g z * Real.exp (2 * J (fun t => P t + Jm ν g t) z)
         = g 0 * Real.exp (2 * J (fun t => P t + Jm ν g t) 0) :=
@@ -491,7 +491,7 @@ theorem goldstein_wake_exists (a : ℝ) (ha : 0 < a) :
       rw [e3] at hgx
       have := (hgx.add ((((d0 x).const_mul 2).mul (d2 x)).hasDerivWithinAt)).sub
         (((d1 x).pow 2).hasDerivWithinAt)
-      convert this using 1
+      deriv_conv this
       simp
     have key : g z + 2 * f0 z * f2 z - f1 z ^ 2 = g 0 + 2 * f0 0 * f2 0 - f1 0 ^ 2 :=
       constant_of_has_deriv_right_zero hc hd' z (right_mem_Icc.2 hz)
@@ -511,7 +511,7 @@ theorem goldstein_wake_exists (a : ℝ) (ha : 0 < a) :
           simpa using ((hasDerivAt_id z).const_mul 2).const_sub 1
         have h2 := h1.exp.div_const 2
         have h3 := (d2 z).add h2
-        convert h3 using 1
+        deriv_conv h3
         ring)
       (fun z hz => by
         have h1 := (hbd z (le_of_lt hz)).2
@@ -545,13 +545,13 @@ theorem goldstein_wake_exists (a : ℝ) (ha : 0 < a) :
   refine ⟨fun z => l * f0 (l * z), fun z => l ^ 2 * f1 (l * z), fun z => l ^ 3 * f2 (l * z),
     fun z => ?_, fun z => ?_, fun z hz => ?_, by simp [hf0], by simp [hf2], ?_⟩
   · have := ((d0 (l * z)).comp z (hlin z)).const_mul l
-    convert this using 1
+    deriv_conv this
     ring
   · have := ((d1 (l * z)).comp z (hlin z)).const_mul (l ^ 2)
-    convert this using 1
+    deriv_conv this
     ring
   · have := (((d2 (l * z)).comp z (hlin z)).const_mul (l ^ 3)).hasDerivWithinAt (s := Ici 0)
-    convert this using 1
+    deriv_conv this
     rw [hint (l * z) (mul_nonneg hl.le hz)]
     ring
   · have h1 : Tendsto (fun z => l * z) atTop atTop := tendsto_id.const_mul_atTop hl

@@ -101,13 +101,10 @@ lemma Jf0_ge {z : ℝ} (hz : 1 ≤ z) : γ * (z - 1) ^ 2 / 2 ≤ J f0 z := by
     monotoneOn_Ici_of_hasDerivAt (F' := fun x => f0 x - γ * (x - 1))
       (fun x => by
         have h1 : HasDerivAt (fun x : ℝ => γ * (x - 1) ^ 2 / 2) (γ * (x - 1)) x := by
-          have := (((hasDerivAt_id x).sub_const 1).pow 2).const_mul (γ / 2)
-          convert this using 1
-          · funext y
-            simp only [id, Pi.pow_apply]
-            ring
-          · simp only [id]
-            ring
+          have := ((((hasDerivAt_id x).sub_const 1).pow 2).const_mul γ).div_const 2
+          deriv_conv this
+          simp only [id, Nat.cast_ofNat, Nat.add_one_sub_one, pow_one, mul_one]
+          ring
         exact (J_hasDerivAt f0_continuous x).sub h1)
       (fun x hx => sub_nonneg.2 (f0_ge (le_of_lt hx)))
   have := hm (mem_Ici.2 le_rfl) (mem_Ici.2 hz) hz
@@ -188,7 +185,7 @@ def E (z : ℝ) : ℝ := z * f1 z - f0 z
 
 lemma hasDerivAt_E (z : ℝ) : HasDerivAt E (z * g z) z := by
   have := ((hasDerivAt_id z).mul (hasDerivAt_f1 z)).sub (hasDerivAt_f0 z)
-  convert this using 1
+  deriv_conv this
   simp only [id]
   ring
 

@@ -102,7 +102,7 @@ lemma one_le_pp {z : ℝ} (hz : 0 ≤ z) : 1 ≤ pp g z := by
 
 lemma hasDerivAt_pp (z : ℝ) : HasDerivAt (pp g) (2 * F0 g z * pp g z) z := by
   have := ((J_hasDerivAt hg.F0_continuous z).const_mul 2).exp
-  convert this using 1
+  deriv_conv this
   unfold pp
   ring
 
@@ -142,7 +142,7 @@ lemma hasDerivAt_omg {z : ℝ} (hz : 0 ≤ z) :
   have h1 := ((hg.coop hlam).om z).dψ z hz le_rfl
   rw [aL_eq hz] at h1
   have h2 := h1.div (hg.hasDerivAt_pp z) (pp_pos z).ne'
-  convert h2 using 1
+  deriv_conv h2
   have := (pp_pos (g := g) z).ne'
   unfold Yw
   field_simp
@@ -158,7 +158,7 @@ lemma hasDerivAt_Yw {z : ℝ} (hz : 0 ≤ z) :
   rw [bL_eq lam hz] at hχ
   have := (((hg.hasDerivAt_pp z).mul hχ).neg).add
     ((((hg.hasDerivAt_F0 z).const_mul 2)).mul hψ)
-  convert this using 1
+  deriv_conv this
   have := (pp_pos (g := g) z).ne'
   field_simp
   ring
@@ -210,11 +210,10 @@ lemma omχ_le {z : ℝ} (hz : 0 ≤ z) :
     (fun x h0 h1 => by
       have h2 : HasDerivAt (fun x : ℝ => 2 * lam * x ^ 2) (2 * lam * (2 * x)) x := by
         have := ((hasDerivAt_id x).pow 2).const_mul (2 * lam)
-        convert this using 1
+        deriv_conv this
         simp
       exact (((hg.coop hlam).om z).dχ x h0 h1).sub h2)
     (fun x h0 _ => by
-      beta_reduce
       rw [bL_eq lam h0]
       obtain ⟨h3, h4⟩ := hg.F1_mul_omψ hlam h0
       have hp := hg.one_le_pp h0
@@ -241,13 +240,12 @@ theorem lw_le : lw (aL g) (bL lam g) ≤ c1 lam := by
     (fun x h0 h1 => by
       have h2 : HasDerivAt (fun x : ℝ => 2 * lam / 3 * x ^ 3) (2 * lam / 3 * (3 * x ^ 2)) x := by
         have := ((hasDerivAt_id x).pow 3).const_mul (2 * lam / 3)
-        convert this using 1
+        deriv_conv this
         simp
       have h3 : HasDerivAt (fun x : ℝ => lw (aL g) (bL lam g) * x) (lw (aL g) (bL lam g)) x := by
         simpa using (hasDerivAt_id x).const_mul (lw (aL g) (bL lam g))
       exact ((((hg.coop hlam).om 1).dψ x h0 h1).add h3).sub h2)
     (fun x h0 _ => by
-      beta_reduce
       have h4 := hg.omχ_le hlam h0
       have h5 := hg.omχ_nonpos hlam h0
       have h6 : aL g x * omχ (aL g) (bL lam g) x ≤ omχ (aL g) (bL lam g) x := by
@@ -271,11 +269,10 @@ theorem Yw_le {z : ℝ} (hz : 0 ≤ z) : Yw lam g z ≤ c1 lam + c2 lam * z ^ 2 
     (fun x h0 _ => by
       have h2 : HasDerivAt (fun x : ℝ => c2 lam * x ^ 2) (c2 lam * (2 * x)) x := by
         have := ((hasDerivAt_id x).pow 2).const_mul (c2 lam)
-        convert this using 1
+        deriv_conv this
         simp
       exact (hg.hasDerivAt_Yw hlam h0).sub h2)
     (fun x h0 _ => by
-      beta_reduce
       obtain ⟨h3, h4⟩ := hg.F1_mul_omψ hlam h0
       have h5 : (1 - 2 * lam) * (F1 g x * omψ (aL g) (bL lam g) x)
           ≤ c2 lam * (F1 g x * omψ (aL g) (bL lam g) x) := mul_le_mul_of_nonneg_right hc2' h3
@@ -317,7 +314,6 @@ lemma omg_lipschitz {R x y : ℝ} (hx : 0 ≤ x) (hxy : x ≤ y) (hyR : y ≤ R)
         simpa using (hasDerivAt_id u).const_mul (c1 lam + c2 lam * R ^ 2)
       exact (hg.hasDerivAt_omg hlam h0).add h3)
     (fun u h0 h1 => by
-      beta_reduce
       have := (hg.omg_deriv_mem hlam h0).2
       have : c2 lam * u ^ 2 ≤ c2 lam * R ^ 2 :=
         mul_le_mul_of_nonneg_left (pow_le_pow_left₀ h0 h1 2) hc2

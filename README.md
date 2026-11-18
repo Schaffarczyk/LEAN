@@ -56,8 +56,17 @@ In the classical normalisation this is Blasius's problem
 | `InG.lw_le`, `InG.Yw_le` | Lemmas 1 and 2 |
 | `PhiL_tendsto` | Lemma 5: continuity of the operator Φ_λ |
 | `InG.weyl_Alam_of_fixed` | a fixed point of Φ_λ yields a solution of (A_λ) |
-| `exists_fixed_of_brouwer` | Φ_λ has a fixed point, given Brouwer's theorem for cubes |
-| `weyl_Alam_exists_of_brouwer` | existence for `w''' + 2ww'' + 2λ(k² - w'²) = 0`, `w(0) = w'(0) = 0`, `w'(∞) = k`, given Brouwer's theorem for cubes |
+| `exists_fixed` | Φ_λ has a fixed point (Weyl's fixed-point principle; Brouwer's theorem via the Appendix argument) |
+| `weyl_Alam_exists` | **Weyl's theorem, p. 406**: for λ ≥ 0, k > 0 there is `w` with `w''' + 2ww'' + 2λ(k² - w'²) = 0`, `w(0) = w'(0) = 0`, `w'(∞) = k` |
+
+Brouwer's fixed-point theorem is not in Mathlib; it is taken from
+[harfe/fixed-point-theorems-lean4](https://github.com/harfe/fixed-point-theorems-lean4)
+(MIT licence), pinned in `lakefile.toml`. `WeylFixedPoint.lean` contains the same results
+with Brouwer's theorem for cubes as an explicit hypothesis (`…_of_brouwer`).
+
+Not formalised: uniqueness for λ ≠ 0 (not proved by Weyl either), the Gaussian decay
+estimates of Lemmas 3 and 4, and §§4–5 (the alternating iteration for λ = 1/2 with
+`q₂ < 0.76`).
 
 No `sorry`. Axioms used: `propext`, `Classical.choice`, `Quot.sound`.
 
@@ -76,12 +85,11 @@ difference), and Töpfer's scaling reduces the boundary-value problem to this ca
 Differences from the paper: boundedness of `f'` is obtained from the monotonicity of
 `f'' + 2 f(1) f'` on `[1, ∞)` instead of Weyl's Gaussian bound, and the majorant
 `2ⁿ/n!` is used in place of `2ⁿ/(3n)!`.
-Not formalised: the asymptotics (17)/(18), the numerical bound on `α`, and the cases
-`λ ≠ 0` (§§3–7 of the paper).
+Not formalised in §2: the decimal bound `α < 0.684`.
 
 ### Build
 
-Lean 4.24.0, Mathlib v4.24.0.
+Lean 4.35.0, Mathlib v4.35.0.
 
     lake exe cache get
     lake build

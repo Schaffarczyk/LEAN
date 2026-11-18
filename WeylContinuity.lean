@@ -56,7 +56,7 @@ lemma mono (h : LocUnif U G g) (hV : V ≤ U) : LocUnif V G g :=
 
 lemma pointwise (h : LocUnif U G g) {z : ℝ} (hz : 0 ≤ z) :
     Tendsto (fun i => G i z) U (𝓝 (g z)) :=
-  tendsto_of_forall_abs_le fun ε hε => (h z ε hε).mono fun i hi => hi z hz le_rfl
+  tendsto_of_forall_abs_le fun ε hε => (h z ε hε).mono fun _ hi => hi z hz le_rfl
 
 /-- Primitives converge uniformly on finite intervals. -/
 lemma primitive (hG : ∀ i, Continuous (G i)) (hg : Continuous g) (h : LocUnif U G g) :
@@ -244,7 +244,7 @@ lemma lin_stability {a b a' b' ψ χ ψ' χ' : ℝ → ℝ} {R M C δ : ℝ}
     intro x hx0 hxR
     have := (((h'.dψ x hx0 hxR).sub (h.dψ x hx0 hxR)).pow 2).add
       (((h'.dχ x hx0 hxR).sub (h.dχ x hx0 hxR)).pow 2)
-    convert this using 1
+    deriv_conv this
     simp only [Nat.cast_ofNat, Nat.add_one_sub_one, pow_one, Pi.sub_apply]
   have hN' : ∀ x, 0 ≤ x → x ≤ R →
       2 * (ψ' x - ψ x) * (a' x * χ' x - a x * χ x)
@@ -301,10 +301,13 @@ lemma lin_stability {a b a' b' ψ χ ψ' χ' : ℝ → ℝ} {R M C δ : ℝ}
     have hE : HasDerivAt (fun x : ℝ => Real.exp (-((2 * M + 2) * x)))
         (Real.exp (-((2 * M + 2) * x)) * -(2 * M + 2)) x := by
       have h1 : HasDerivAt (fun x : ℝ => -((2 * M + 2) * x)) (-(2 * M + 2)) x := by
-        simpa using ((hasDerivAt_id x).const_mul (2 * M + 2)).neg
+        have := ((hasDerivAt_id x).const_mul (2 * M + 2)).neg
+        deriv_conv this
+        simp
       exact h1.exp
     have h2 := ((hN x hx0 hxR).add_const K).mul hE
-    convert h2 using 1
+    deriv_conv h2
+    rfl
   have hanti := antitoneOn_Icc_of_hasDerivAt (s := 0) (t := R) hG fun x hx0 hxR => by
     have hE := Real.exp_pos (-((2 * M + 2) * x))
     have h1 := hN' x hx0 hxR
