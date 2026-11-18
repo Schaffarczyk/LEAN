@@ -90,9 +90,20 @@ Weyl obtains `q₂ < 0.76` from numerical estimates of two integrals. The formal
 for `G₂'`, and the polynomial `φ(z) = 4z/5 + z³/15` satisfies `φD - φ' ≥ z³/3 - 9/10`, which
 makes `φ e^{-G₂} + ∫₀ᶻ e^{-G₂}(ζ³/3 - 9/10)dζ` non-increasing.
 
+`WeylConstants.lean` contains the numerical constants:
+
+| Theorem | Statement |
+|---|---|
+| `exp_alt` | the partial sums of the exponential series enclose `e^{-x}` alternately (`x ≥ 0`) |
+| `Homann.B_ge` | `B = ∫₀^∞ e^{-z³/3} dz ≥ 1.287` |
+| `weyl_A0_alpha` | Blasius: `w''(0) < 0.685 k^{3/2}` (p. 388) |
+| `Homann.q2_le_three_quarters` | `q₂ ≤ 3/4`, which contains Weyl's `q₂ < 0.76` (p. 398) |
+
+Weyl states `α < 0.684` on p. 388. This does not follow from his bound `β ≥ B`, since
+`B^{-3/2} = 0.68419…`; what follows, and is proved here, is `α < 0.685`.
+
 Not formalised: uniqueness for λ other than 0 and 1/2 (not proved by Weyl either), the
-Gaussian decay estimates of Lemmas 3 and 4, Weyl's sharper constant `q₂ < 0.76`, and the
-power-series remarks of §3.
+Gaussian decay estimates of Lemmas 3 and 4, and the power-series remarks of §3.
 
 No `sorry`. Axioms used: `propext`, `Classical.choice`, `Quot.sound`.
 

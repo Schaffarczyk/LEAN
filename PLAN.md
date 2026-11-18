@@ -35,6 +35,7 @@ for the fixed-point equation g = Ψ{g}.
   - [x] C5a: uniqueness of the solution of `g = Ψ{g}`
   - [x] C2/C5b: convergence of the iteration `gₙ`, pincer movement, existence of the fixed point (`HomannIteration.lean`)
   - [x] C5c: every solution of (A_{1/2}) gives a solution of `g = Ψ{g}`; uniqueness for the differential equation (`homann_unique`, `homann_exists_unique`). Existence is taken from `weyl_Alam_exists`.
+- [x] Constants (`WeylConstants.lean`): `B ≥ 1.287`, `α < 0.685`, `q₂ ≤ 3/4`
 - [x] Stage D – §§6–8 (existence for (A_λ), λ ≥ 0)
   - [x] D1: linear system and auxiliary theorem in abstract form (`LinearSystem.lean`, `WeylAux.lean`)
   - [x] D2: the operator Φ_λ, Lemma 1, Lemma 2, equicontinuity (`WeylOperator.lean`); Lemmas 3–4 move to D5
