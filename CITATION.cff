@@ -22,9 +22,9 @@ authors:
     given-names: Alois Peter
     orcid: "https://orcid.org/0000-0002-9357-3232"
     affiliation: "University of Applied Sciences Kiel"
-version: 2.2.0
+version: 2.2.1
 doi: 10.5281/zenodo.24333373
-date-released: 2026-11-18
+date-released: 2026-11-19
 license: Apache-2.0
 repository-code: "https://github.com/Schaffarczyk/LEAN"
 keywords:
