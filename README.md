@@ -125,6 +125,13 @@ difference), and Töpfer's scaling reduces the boundary-value problem to this ca
 Differences from the paper: boundedness of `f'` is obtained from the monotonicity of
 `f'' + 2 f(1) f'` on `[1, ∞)` instead of Weyl's Gaussian bound, and the majorant
 `2ⁿ/n!` is used in place of `2ⁿ/(3n)!`.
+
+Differences from the paper in §§6–8: in the auxiliary theorem (`WeylAux.lean`) the sign of
+the solutions `φ^(a)` is obtained from the positivity of cooperative systems after time
+reversal, instead of Weyl's "Dirichlet integral" (43). In the fixed-point principle
+(`WeylFixedPoint.lean`) the limit of the approximate fixed points is taken pointwise along
+an ultrafilter instead of Weyl's subsequence; equicontinuity (Lemma 2) upgrades this to
+uniform convergence on finite intervals.
 Not formalised in §2: the decimal bound `α < 0.684`.
 
 ### Build
